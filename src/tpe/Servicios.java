@@ -14,14 +14,12 @@ import tpe.utils.CSVReader;
  */
 public class Servicios {
 
-	//private int tiempoTotal;
 	private HashMap<String, Tarea> mapaTareas;
 	private HashMap<String, Procesador> mapProcesadores;
 	private LinkedList<Tarea> ListaCritica ;
 	private LinkedList<Tarea> ListaNoCritica;
 	private LinkedList<Tarea> listaTareas;
 	private LinkedList<Procesador> listaProcesadores;
-	//private List<Tarea> visitados;
 
 	public Servicios(String pathProcesadores, String pathTareas){
 		CSVReader reader = new CSVReader();
@@ -32,7 +30,6 @@ public class Servicios {
 		this.mapProcesadores = new HashMap<>();
 		this.ListaCritica = new LinkedList<>();
 		this.ListaNoCritica = new LinkedList<>();
-		//this.tiempoTotal = 0;
 
 		this.listaTareas = new LinkedList<>();
 		this.listaTareas = reader.getTasks();
@@ -70,7 +67,6 @@ public class Servicios {
     
     /*
      * O(n) donde n son las iteraciones posibles
-     * preguntar !
      */
 	
 	public LinkedList<Tarea> servicio2(boolean esCritica) {
@@ -102,56 +98,6 @@ public class Servicios {
 		return Resultado;
 	}
 
-	/*
-	private int calcularTiempoTotal(HashMap<String, Procesador> asignacion) {
-		int tiempoTotal = 0;
-		for (Procesador procesador : asignacion.values()) {
-			tiempoTotal += procesador.getTiempoTotal();
-		}
-		return tiempoTotal;
-	}
-	*/
-
-	//public int getTiempoTotal() {
-	//	return tiempoTotal;
-	//}
-
-	//public void setTiempoTotal(int tiempoTotal) {
-		//this.tiempoTotal = tiempoTotal;
-	//}
-/*
-	public void asignacionTareas(int tiempo){
-		Estado estado = new Estado();			
-		backAsignacionTareas(tiempo, estado, listTareas);
-		System.out.println(estado.toString());
-	}
-									
-	private void backAsignacionTareas(int tiempo, Estado estado, List<Tarea> listTareas){
-		//condicion de corte, quedarnos sin tareas de nuestro hashMap
-
-		if(listTareas.isEmpty()){ //primer condicion, que no haya mas tareas
-			estado.incrementarEstado();
-			if(estado.esLaMejorSolucion()){ //segunda condicion que el estado tenga mejor solucion que la guardada como mejor
-				estado.actualizarSolucion(); //preguntar si debemos mostrar todos los procesadores aunque todas las tareas esten en un procesador
-				System.out.println(estado.calcularTiempo());
-			}
-		}
-		else{ 
-			Tarea tarea = listTareas.remove(0); //obtiene el primer elemento de listTareas y lo elimina
-			Iterator<Procesador> itProcesador = obtProcesadores();
-			while(itProcesador.hasNext()){
-				Procesador proc = itProcesador.next();
-				if(proc.cumpleCondicion(tarea, tiempo)){
-					estado.addTarea(tarea, proc);
-					backAsignacionTareas(tiempo, estado, listTareas);
-					estado.removeTarea(tarea, proc);	
-					//preguntar que hacer con el remove
-				}
-			}
-			listTareas.add(0, tarea);
-		}
-	}
-*/
 	public void addProcesador(String id_procesador, String codigo_procesador, boolean esta_refrigerado, int anio_procesamiento){
 		Procesador procesador = new Procesador(id_procesador, codigo_procesador, esta_refrigerado, anio_procesamiento);
 		this.mapProcesadores.put(id_procesador, procesador);

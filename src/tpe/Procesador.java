@@ -1,6 +1,5 @@
 package tpe;
 
-
 import java.util.LinkedList;
 
 public class Procesador {
@@ -11,19 +10,20 @@ public class Procesador {
     private LinkedList<Tarea> listTareas;
     private int tareasCriticas;
 
-    public Procesador(String id_procesador, String codigo_procesador, boolean esta_refrigerado, int anio_procesamiento) {
+    public Procesador(String id_procesador, String codigo_procesador, boolean esta_refrigerado,
+            int anio_procesamiento) {
         this.id_procesador = id_procesador;
-        this.codigo_procesador= codigo_procesador;
+        this.codigo_procesador = codigo_procesador;
         this.esta_refrigerado = esta_refrigerado;
         this.anio_procesamiento = anio_procesamiento;
         this.listTareas = new LinkedList<>();
         this.tareasCriticas = 0;
     }
 
-    
-    public Procesador(String id_procesador, String codigo_procesador, boolean esta_refrigerado, int anio_procesamiento, LinkedList<Tarea> linkedList) {
+    public Procesador(String id_procesador, String codigo_procesador, boolean esta_refrigerado, int anio_procesamiento,
+            LinkedList<Tarea> linkedList) {
         this.id_procesador = id_procesador;
-        this.codigo_procesador= codigo_procesador;
+        this.codigo_procesador = codigo_procesador;
         this.esta_refrigerado = esta_refrigerado;
         this.anio_procesamiento = anio_procesamiento;
         this.listTareas = linkedList;
@@ -46,24 +46,25 @@ public class Procesador {
         return codigo_procesador;
     }
 
-    public void addTarea(Tarea t){
+    public void addTarea(Tarea t) {
         this.listTareas.add(t);
-        if(t.isCritica()){ 
-            this.tareasCriticas++; //incremento tareasCriticas si es critica la tarea
+        if (t.isCritica()) {
+            this.tareasCriticas++; // incremento tareasCriticas si es critica la tarea
         }
     }
 
-    public void removeTarea(Tarea t){
-        if(t.isCritica()){
+    public void removeTarea(Tarea t) {
+        if (t.isCritica()) {
             this.tareasCriticas--;
         }
-        this.listTareas.remove(t);//chequear si la tarea es critica
+        this.listTareas.remove(t);// chequear si la tarea es critica
     }
 
     public boolean cumpleCondicion(Tarea tarea, int tiempoX) {
-        // Verifico si añadir esta tarea supera el límite de tiempo de tareas no refrigeradas
+        // Verifico si añadir esta tarea supera el límite de tiempo de tareas no
+        // refrigeradas
         int tiempoTotal = getTiempoTotal();
-        if (!isEsta_refrigerado() && (tiempoTotal + tarea.getTiempo() > tiempoX)) { //preguntar si esta bien
+        if (!isEsta_refrigerado() && (tiempoTotal + tarea.getTiempo() > tiempoX)) { // preguntar si esta bien
             return false;
         }
 
@@ -83,27 +84,19 @@ public class Procesador {
         return tiempoTotal;
     }
 
-    //hacer una copia de procesador para ingresar solo la copia
-
-    // @Override
-    // public String toString() {
-    //     return "Procesador [id_procesador=" + id_procesador +
-    //             ", esta_refrigerado=" + esta_refrigerado +
-    //             ", listTareas=" + listTareas + "]";
-    // }
-        
     @Override
     public String toString() {
-        return "Procesador [id_procesador=" + id_procesador +
-                ", listTareas=" + listTareas +"]";
+        return "Procesador =  " + id_procesador +
+                ", listTareas =" + listTareas;
     }
 
     public Procesador copiaProc() {
-    	return new Procesador(this.id_procesador, this.codigo_procesador, this.esta_refrigerado, this.anio_procesamiento, this.getLinkedListCopia());
+        return new Procesador(this.id_procesador, this.codigo_procesador, this.esta_refrigerado,
+                this.anio_procesamiento, this.getLinkedListCopia());
     }
 
-    public LinkedList<Tarea> getLinkedListCopia(){
+    public LinkedList<Tarea> getLinkedListCopia() {
         return new LinkedList<>(this.listTareas);
     }
-    
+
 }

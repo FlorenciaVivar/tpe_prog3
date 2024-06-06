@@ -74,6 +74,6 @@ public class Tarea {
     }
 	@Override
 	public String toString() {
-	return "Tarea [id=" + id ;
+	return "Tarea = " + id ;
 	}
 }
