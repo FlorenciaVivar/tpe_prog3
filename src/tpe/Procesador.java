@@ -11,7 +11,7 @@ public class Procesador {
     private int tareasCriticas;
 
     public Procesador(String id_procesador, String codigo_procesador, boolean esta_refrigerado,
-            int anio_procesamiento) {
+        int anio_procesamiento) {
         this.id_procesador = id_procesador;
         this.codigo_procesador = codigo_procesador;
         this.esta_refrigerado = esta_refrigerado;
@@ -69,7 +69,7 @@ public class Procesador {
         }
 
         // Verifico si añadir esta tarea crítica supera el límite de 2 tareas críticas
-        else if (tarea.isCritica() && (tareasCriticas >= 2)) {
+        else if (tarea.isCritica() && (tareasCriticas > 2)) { // TODO: preg aca no deberia ser solo > xq dice mas de dos
             return false;
         }
 
@@ -97,6 +97,10 @@ public class Procesador {
 
     public LinkedList<Tarea> getLinkedListCopia() {
         return new LinkedList<>(this.listTareas);
+    }   
+
+    public int cantidadDeTareasCriticas(){
+        return this.tareasCriticas;
     }
 
 }

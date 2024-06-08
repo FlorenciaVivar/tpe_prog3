@@ -57,7 +57,7 @@ public class Tarea {
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null) {
             return false;
         }
         Tarea tarea = (Tarea) obj;

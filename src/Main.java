@@ -1,5 +1,6 @@
 
 import tpe.Back;
+import tpe.Greedy;
 import tpe.Servicios;
 
 public class Main {
@@ -25,11 +26,14 @@ public class Main {
         System.out.println(servicios.servicio2(false));
 
         System.out.println("\nTareas segun prioridad: ");
-        System.out.println(servicios.servicio3(0, 99));
+        System.out.println(servicios.servicio3(50, 99));
 
         System.out.println("\n---------------SEGUNDA PARTE--------------");
-
+        System.out.println("-------Back------");
         back.asignacionTareas(200, servicios);
+        System.out.println("-------Greedy------");
+        Greedy greedy = new Greedy();
+        greedy.greedy(200,servicios);
     }
 
 }

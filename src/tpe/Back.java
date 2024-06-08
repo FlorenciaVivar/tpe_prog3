@@ -91,6 +91,7 @@ public class Back {
                 // System.out.println(calcularTiempo());
             }
         } else {
+            
             Tarea tarea = listTareas.removeFirst();
             Iterator<Procesador> itProcesador = servicio.obtProcesadores();
             while (itProcesador.hasNext()) {
