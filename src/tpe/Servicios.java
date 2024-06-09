@@ -52,7 +52,6 @@ public class Servicios {
 		 if(!contieneTarea(ID)) {
 			Tarea t = new Tarea(ID,nombre, tiempo, critica, prioridad);
 			mapaTareas.put(ID, t);
-			// listaTareas.add(t);
 			addTareaCritica(t);
 		 }
 	}

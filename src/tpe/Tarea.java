@@ -74,6 +74,6 @@ public class Tarea {
     }
 	@Override
 	public String toString() {
-	return "Tarea = " + id ;
+	return "Tarea = " + id + ", tiempo = " + tiempo + ", critica = " + critica+ "; " ;
 	}
 }

@@ -69,7 +69,7 @@ public class Procesador {
         }
 
         // Verifico si añadir esta tarea crítica supera el límite de 2 tareas críticas
-        else if (tarea.isCritica() && (tareasCriticas > 2)) { // TODO: preg aca no deberia ser solo > xq dice mas de dos
+        else if (tarea.isCritica() && (tareasCriticas > 2)) { 
             return false;
         }
 
@@ -86,7 +86,7 @@ public class Procesador {
 
     @Override
     public String toString() {
-        return "Procesador =  " + id_procesador +
+        return "Procesador =  " + id_procesador + ", es refrigerado?  "+ esta_refrigerado +
                 ", listTareas =" + listTareas;
     }
 

@@ -34,6 +34,7 @@ public class Main {
         System.out.println("-------Greedy------");
         Greedy greedy = new Greedy();
         greedy.greedy(200,servicios);
+        System.out.println(greedy);
     }
 
 }

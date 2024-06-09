@@ -83,10 +83,8 @@ public class Back {
 
         this.incrementarEstado();
         if (listTareas.isEmpty()) {
-            // System.out.println(this.getAsignacionTareas());
             if (this.esLaMejorSolucion()) {
-                // segunda condicion que el estado tenga mejor solucion que la guardada como
-                // mejor
+                // segunda condicion que el estado tenga mejor solucion que la guardada como mejor
                 this.actualizarSolucion(this.getAsignacionTareas());
                 // System.out.println(calcularTiempo());
             }
