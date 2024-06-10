@@ -30,7 +30,7 @@ public class Main {
 
         System.out.println("\n---------------SEGUNDA PARTE--------------");
         System.out.println("-------Back------");
-        back.asignacionTareas(200, servicios);
+        back.asignacionTareas(50, servicios);
         System.out.println("-------Greedy------");
         Greedy greedy = new Greedy();
         greedy.greedy(200,servicios);

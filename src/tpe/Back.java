@@ -79,29 +79,31 @@ public class Back {
         System.out.println(this.toString());
     }
 
+    /*La estrategia utilizada por el grupo en nuestro backtracking fue asignar cada tarea a todos 
+    los procesadores posibles y por cada procesador preguntar si cumple las conidiciones requeridas
+    para la entrega y en el momento de que la linkedList de tareas este vacia preguntamos si es solucion*/
     private void backAsignacionTareas(int tiempo, LinkedList<Tarea> listTareas, Servicios servicio) {
-
         this.incrementarEstado();
         if (listTareas.isEmpty()) {
             if (this.esLaMejorSolucion()) {
-                // segunda condicion que el estado tenga mejor solucion que la guardada como mejor
                 this.actualizarSolucion(this.getAsignacionTareas());
-                // System.out.println(calcularTiempo());
             }
         } else {
-            
             Tarea tarea = listTareas.removeFirst();
             Iterator<Procesador> itProcesador = servicio.obtProcesadores();
+            boolean tareaAsignada = false;
             while (itProcesador.hasNext()) {
                 Procesador proc = itProcesador.next();
-                // System.out.println(tarea.getId());
-                // System.out.println(proc.getId_procesador());
                 if (proc.cumpleCondicion(tarea, tiempo)) {
-                    // System.out.println("cumple condicion");
                     this.addTarea(tarea, proc);
                     backAsignacionTareas(tiempo, listTareas, servicio);
                     this.removeTarea(tarea, proc);
-                }
+                    tareaAsignada = true;
+                } 
+            }
+            if (!tareaAsignada) {
+                System.out.println("Hay almenos una tarea: " + tarea.getId() + ", que no puede ser asignada a ningún procesador.");
+                System.exit(0);
             }
             listTareas.addFirst(tarea);
         }

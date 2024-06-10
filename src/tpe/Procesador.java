@@ -69,7 +69,7 @@ public class Procesador {
         }
 
         // Verifico si añadir esta tarea crítica supera el límite de 2 tareas críticas
-        else if (tarea.isCritica() && (tareasCriticas > 2)) { 
+        else if (tarea.isCritica() && (tareasCriticas >= 2)) { 
             return false;
         }
 
