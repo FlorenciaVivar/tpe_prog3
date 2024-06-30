@@ -103,7 +103,7 @@ public class Back {
             }
             if (!tareaAsignada) {
                 System.out.println("Hay almenos una tarea: " + tarea.getId() + ", que no puede ser asignada a ningún procesador.");
-                System.exit(0);
+                return;
             }
             listTareas.addFirst(tarea);
         }
@@ -123,7 +123,7 @@ public class Back {
         for (String id : this.getMejorAsignacion().keySet()) {
             result += "    " + this.getMejorAsignacion().get(id) + "\n";
         }
-        result += "Contador de estado: " + cont_estado;
+        result += "Contador de estado: " + cont_estado + " tiempo total = " + this.mejorTiempoTotal;
         return result;
     }
 

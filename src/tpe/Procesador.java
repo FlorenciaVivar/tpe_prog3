@@ -64,7 +64,7 @@ public class Procesador {
         // Verifico si añadir esta tarea supera el límite de tiempo de tareas no
         // refrigeradas
         int tiempoTotal = getTiempoTotal();
-        if (!isEsta_refrigerado() && (tiempoTotal + tarea.getTiempo() > tiempoX)) { // preguntar si esta bien
+        if (!isEsta_refrigerado() && (tiempoTotal + tarea.getTiempo() > tiempoX)) { 
             return false;
         }
 

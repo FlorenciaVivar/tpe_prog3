@@ -4,7 +4,6 @@ package tpe;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import tpe.utils.CSVReader;
 
 /**
@@ -21,6 +20,7 @@ public class Servicios {
 	private LinkedList<Tarea> listaTareas;
 	private LinkedList<Procesador> listaProcesadores;
 
+	/* Complejidad del constructor: O(n+m)  */
 	public Servicios(String pathProcesadores, String pathTareas){
 		CSVReader reader = new CSVReader();
 		reader.readProcessors(pathProcesadores);
@@ -44,28 +44,29 @@ public class Servicios {
 		}
 	}
 	
-	/*
-     * O(1) donde 1 es cada Tarea
-     */
 	
 	public void addTarea(String ID,String nombre, Integer tiempo,boolean critica,Integer prioridad) {
-		 if(!contieneTarea(ID)) {
+		if(!contieneTarea(ID)) {
 			Tarea t = new Tarea(ID,nombre, tiempo, critica, prioridad);
 			mapaTareas.put(ID, t);
 			addTareaCritica(t);
-		 }
+		}
 	}
-
+	
 	private boolean contieneTarea(String id) {
 		return this.mapaTareas.containsKey(id);
-		}
+	}
 	
+	/*
+	 * O(1) donde 1 es cada Tarea
+	 */
+
 	public Tarea servicio1(String ID) {
 		return mapaTareas.get(ID);
 	}
     
     /*
-     * O(n) donde n son las iteraciones posibles
+     * O(1) donde n se retorna la lista de criticas y no criticas
      */
 	
 	public LinkedList<Tarea> servicio2(boolean esCritica) {

@@ -108,7 +108,7 @@ public class Greedy {
         }
         return tienenMenosDe2Criticas;
     }
-
+/* 
     public void ordenarList(LinkedList<Tarea> list) {
         Collections.sort(list, new Comparator<Tarea>() {
             @Override
@@ -117,7 +117,15 @@ public class Greedy {
             }
         });
     }
-
+*/
+    public void ordenarList(LinkedList<Tarea> list) {
+        Collections.sort(list, new Comparator<Tarea>() {
+            @Override
+            public int compare(Tarea t1, Tarea t2) {
+                return Integer.compare(t2.getTiempo(), t1.getTiempo());
+            }
+        });
+    }
     public void incrementarEstadoGreddy() {
         this.cont_estado++;
     }
