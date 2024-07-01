@@ -20,7 +20,7 @@ public class Servicios {
 	private LinkedList<Tarea> listaTareas;
 	private LinkedList<Procesador> listaProcesadores;
 
-	/* Complejidad del constructor: O(n+m)  */
+	/* Complejidad del constructor: O(n + m) donde n es la cantidad de tareas y m es la cantidad de procesadores  */
 	public Servicios(String pathProcesadores, String pathTareas){
 		CSVReader reader = new CSVReader();
 		reader.readProcessors(pathProcesadores);
@@ -30,20 +30,21 @@ public class Servicios {
 		this.mapProcesadores = new HashMap<>();
 		this.ListaCritica = new LinkedList<>();
 		this.ListaNoCritica = new LinkedList<>();
-
+		this.listaProcesadores =new LinkedList<>();
 		this.listaTareas = new LinkedList<>();
+
 		this.listaTareas = reader.getTasks();
+		this.listaProcesadores =reader.getProcesadores();
+
 		for (Tarea tarea : listaTareas) {// lleno el mapa con las tareas
 			this.addTarea(tarea.getId(), tarea.getNombre(), tarea.getTiempo(), tarea.isCritica(), tarea.getPrioridad());
 		}	
 
-		this.listaProcesadores =new LinkedList<>();
-		this.listaProcesadores =reader.getProcesadores();
+		
 		for(Procesador procesador: listaProcesadores){ // lleno el mapa con los procesdpres
 			this.addProcesador(procesador.getId_procesador(),procesador.getCodigo_procesador(),procesador.isEsta_refrigerado(),procesador.getAnio_procesamiento());
 		}
 	}
-	
 	
 	public void addTarea(String ID,String nombre, Integer tiempo,boolean critica,Integer prioridad) {
 		if(!contieneTarea(ID)) {
@@ -66,7 +67,7 @@ public class Servicios {
 	}
     
     /*
-     * O(1) donde n se retorna la lista de criticas y no criticas
+     * O(1) simplemente se retorna la lista de criticas y no criticas, la complejidad es constante
      */
 	
 	public LinkedList<Tarea> servicio2(boolean esCritica) {
@@ -110,16 +111,16 @@ public class Servicios {
 		return new LinkedList<>(this.listaTareas);
 	}
 
-	public void imprimirTodasLasTareas() {
-		for (Tarea t : mapaTareas.values()) {
-			System.out.println(t);
-		}
-	}
+	// public void imprimirTodasLasTareas() {
+	// 	for (Tarea t : mapaTareas.values()) {
+	// 		System.out.println(t);
+	// 	}
+	// }
 
-	public void imprimirTodosLosProcesadores() {
-		for (Procesador p : mapProcesadores.values()) {
-			System.out.println(p);
-		}
-	}
+	// public void imprimirTodosLosProcesadores() {
+	// 	for (Procesador p : mapProcesadores.values()) {
+	// 		System.out.println(p);
+	// 	}
+	// }
 
 }

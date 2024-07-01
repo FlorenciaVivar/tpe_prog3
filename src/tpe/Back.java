@@ -11,12 +11,53 @@ public class Back {
     private int mejorTiempoTotal;
     private int cont_estado;
 
+    private LinkedList<Tarea> listaTareasCONTADOR;
+
     public Back() {
         this.mejorTiempoTotal = Integer.MAX_VALUE;
         this.mejorAsignacion = new HashMap<>();
         this.asignacionActual = new HashMap<>();
         this.cont_estado = 0;
     }
+
+    public ResultadoBack asignacionTareas(int tiempo, Servicios servicio) {
+        LinkedList<Tarea> list = servicio.getListServicio();
+        this.listaTareasCONTADOR = new LinkedList<>(list);
+        backAsignacionTareas(tiempo, list, servicio);
+        if(this.mejorAsignacion.isEmpty()){
+            return null;
+        }
+        else{
+            ResultadoBack res = new ResultadoBack( this.mejorAsignacion , this.cont_estado , this.mejorTiempoTotal );
+            return res;
+        }
+    }
+
+    /*La estrategia utilizada por el grupo en nuestro backtracking fue asignar cada tarea a todos
+   los procesadores posibles y por cada procesador preguntar si cumple las conidiciones requeridas
+   para la entrega y en el momento de que la linkedList de tareas este vacia preguntamos si es solucion*/
+    private void backAsignacionTareas(int tiempo, LinkedList<Tarea> listTareas, Servicios servicio) {
+        this.incrementarEstado();
+        if (listTareas.isEmpty()) {
+            if (this.esLaMejorSolucion()) {
+                this.actualizarSolucion(this.getAsignacionTareas());
+            }
+        } else {
+            Tarea tarea = listTareas.removeFirst();
+            Iterator<Procesador> itProcesador = servicio.obtProcesadores();
+            boolean tareaAsignada = false;
+            while (itProcesador.hasNext()) {
+                Procesador proc = itProcesador.next();
+                if (proc.cumpleCondicion(tarea, tiempo)) {
+                    this.addTarea(tarea, proc);
+                        backAsignacionTareas(tiempo, listTareas, servicio);
+                    this.removeTarea(tarea, proc);
+                }
+            }
+            listTareas.addFirst(tarea);
+        }
+    }
+
 
     public void incrementarEstado() {
         this.cont_estado++;
@@ -68,47 +109,6 @@ public class Back {
         return tiempoTotal;
     }
 
-    public boolean esLaMejorSolucion() {
-        int tiempoActual = calcularTiempoMaximo(this.asignacionActual);
-        return tiempoActual <= mejorTiempoTotal;
-    }
-
-    public void asignacionTareas(int tiempo, Servicios servicio) {
-        LinkedList<Tarea> list = servicio.getListServicio();
-        backAsignacionTareas(tiempo, list, servicio);
-        System.out.println(this.toString());
-    }
-
-    /*La estrategia utilizada por el grupo en nuestro backtracking fue asignar cada tarea a todos 
-    los procesadores posibles y por cada procesador preguntar si cumple las conidiciones requeridas
-    para la entrega y en el momento de que la linkedList de tareas este vacia preguntamos si es solucion*/
-    private void backAsignacionTareas(int tiempo, LinkedList<Tarea> listTareas, Servicios servicio) {
-        this.incrementarEstado();
-        if (listTareas.isEmpty()) {
-            if (this.esLaMejorSolucion()) {
-                this.actualizarSolucion(this.getAsignacionTareas());
-            }
-        } else {
-            Tarea tarea = listTareas.removeFirst();
-            Iterator<Procesador> itProcesador = servicio.obtProcesadores();
-            boolean tareaAsignada = false;
-            while (itProcesador.hasNext()) {
-                Procesador proc = itProcesador.next();
-                if (proc.cumpleCondicion(tarea, tiempo)) {
-                    this.addTarea(tarea, proc);
-                    backAsignacionTareas(tiempo, listTareas, servicio);
-                    this.removeTarea(tarea, proc);
-                    tareaAsignada = true;
-                } 
-            }
-            if (!tareaAsignada) {
-                System.out.println("Hay almenos una tarea: " + tarea.getId() + ", que no puede ser asignada a ningún procesador.");
-                return;
-            }
-            listTareas.addFirst(tarea);
-        }
-    }
-
     public HashMap<String, Procesador> getAsignacionTareas() {
         return new HashMap<>(this.asignacionActual);
     }
@@ -117,14 +117,17 @@ public class Back {
         return mejorTiempoTotal;
     }
 
-    @Override
-    public String toString() {
-        String result = "Mejor asignación:\n";
-        for (String id : this.getMejorAsignacion().keySet()) {
-            result += "    " + this.getMejorAsignacion().get(id) + "\n";
+    public boolean esLaMejorSolucion() {
+        int tiempoActual = calcularTiempoMaximo(this.asignacionActual);
+        return tiempoActual <= mejorTiempoTotal && this.cantidadTareasAsignadas() == this.listaTareasCONTADOR.size() ;
+    }
+
+    private int cantidadTareasAsignadas(){
+    int resultado =0;
+        for ( Procesador p : this.asignacionActual.values()){
+            resultado+= p.getLinkedListCopia().size();
         }
-        result += "Contador de estado: " + cont_estado + " tiempo total = " + this.mejorTiempoTotal;
-        return result;
+        return resultado;
     }
 
 }

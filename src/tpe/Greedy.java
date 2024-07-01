@@ -9,26 +9,30 @@ public class Greedy {
 
     private int cont_estado;
     private LinkedList<Procesador> solucion;
+    int cant_asignadas;
+    private int mejorTiempoTotal;
 
     public Greedy() { 
         this.cont_estado = 0;
         this.solucion = new LinkedList<>();
+        this.mejorTiempoTotal = 0;
     }
 
     /*
-     * Greedy asignara las tareas ordenadas de menor a mayor tiempo a cada
+     * Greedy asignara las tareas ordenadas de mayor a menor tiempo a cada
      * procesador chequeando antes de agregarlas que no tenga mas de 2 tareas
      * criticas y su procesador refrigerado no supere el tiempo X
      */
 
-    public LinkedList<Procesador> greedy(int xParaNorRefrigerados, Servicios servicio) {
+    public ResultadoGreedy greedy(int xParaNorRefrigerados, Servicios servicio) {
         LinkedList<Tarea> candidatos = new LinkedList<>(servicio.getListServicio());
 
+        int cantTareasTotal = candidatos.size();
+
         ordenarList(candidatos);
-        System.out.println("lista candidatos tareas ordenadas " + candidatos);
 
         while (!candidatos.isEmpty()) {
-            Tarea tarea = candidatos.getFirst(); // selecciono la primera de la lista (con menor tiempo)
+            Tarea tarea = candidatos.getFirst(); // selecciono la primera de la lista (con mayor tiempo)
             candidatos.remove(tarea);
             Procesador mejorHastaAhora = null;
             Integer menorTiempoHastaAhora = Integer.MAX_VALUE;
@@ -50,12 +54,13 @@ public class Greedy {
                         mejorHastaAhora = actual;
                     } 
                     else if(!actual.cumpleCondicion(tarea, xParaNorRefrigerados)){
-                        System.out.println("hay por lo menos 1 tarea que no puede ser asignada  " + tarea);
+                        // System.out.println("hay por lo menos 1 tarea que no puede ser asignada  " + tarea);
                         break;
                     }
                 }
                 if(mejorHastaAhora!=null){
                     mejorHastaAhora.addTarea(tarea);
+                    mejorTiempoTotal += tarea.getTiempo();
                     if (!solucion.contains(mejorHastaAhora)) {
                         solucion.add(mejorHastaAhora);
                     }
@@ -73,12 +78,13 @@ public class Greedy {
                         mejorHastaAhora = actual;
                     } 
                     else if(!actual.cumpleCondicion(tarea, xParaNorRefrigerados)){
-                        System.out.println("hay por lo menos 1 tarea que no puede ser asignada  " + tarea);
+                        // System.out.println("hay por lo menos 1 tarea que no puede ser asignada  " + tarea);
                         break;
                     }
                 }
                 if (mejorHastaAhora != null) {
                     mejorHastaAhora.addTarea(tarea);
+                    mejorTiempoTotal += tarea.getTiempo();
                     if (!solucion.contains(mejorHastaAhora)) {
                         solucion.add(mejorHastaAhora);
                     }
@@ -87,8 +93,8 @@ public class Greedy {
                 }
             }
         }
-        if (candidatos.isEmpty()) {
-           return solucion;
+        if (candidatos.isEmpty() && cantidadTareasAsignadas() == cantTareasTotal) {
+           return new ResultadoGreedy(this.solucion, this.cont_estado, this.mejorTiempoTotal);
         } else {
             return null;
         }
@@ -108,16 +114,7 @@ public class Greedy {
         }
         return tienenMenosDe2Criticas;
     }
-/* 
-    public void ordenarList(LinkedList<Tarea> list) {
-        Collections.sort(list, new Comparator<Tarea>() {
-            @Override
-            public int compare(Tarea t1, Tarea t2) {
-                return Integer.compare(t1.getTiempo(), t2.getTiempo());
-            }
-        });
-    }
-*/
+
     public void ordenarList(LinkedList<Tarea> list) {
         Collections.sort(list, new Comparator<Tarea>() {
             @Override
@@ -129,13 +126,12 @@ public class Greedy {
     public void incrementarEstadoGreddy() {
         this.cont_estado++;
     }
-    @Override
-    public String toString() {
-        String result = "Asignacion greedy :\n";
-        for (Procesador p : this.solucion) {
-            result += "    " + p + "\n";	
+
+    private int cantidadTareasAsignadas(){
+//        int cant_asignadas =0;
+        for ( Procesador p : this.solucion){
+            this.cant_asignadas+= p.getLinkedListCopia().size();
         }
-        result += "Contador de estado: " + cont_estado;
-        return result;
+        return cant_asignadas;
     }
 }
