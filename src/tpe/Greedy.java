@@ -54,7 +54,6 @@ public class Greedy {
                         mejorHastaAhora = actual;
                     } 
                     else if(!actual.cumpleCondicion(tarea, xParaNorRefrigerados)){
-                        // System.out.println("hay por lo menos 1 tarea que no puede ser asignada  " + tarea);
                         break;
                     }
                 }
@@ -78,7 +77,6 @@ public class Greedy {
                         mejorHastaAhora = actual;
                     } 
                     else if(!actual.cumpleCondicion(tarea, xParaNorRefrigerados)){
-                        // System.out.println("hay por lo menos 1 tarea que no puede ser asignada  " + tarea);
                         break;
                     }
                 }
@@ -98,7 +96,6 @@ public class Greedy {
         } else {
             return null;
         }
-
     }
 
     // Todos los procesadores que tienen menos de 2 tareas criticas
@@ -123,12 +120,12 @@ public class Greedy {
             }
         });
     }
+    
     public void incrementarEstadoGreddy() {
         this.cont_estado++;
     }
 
     private int cantidadTareasAsignadas(){
-//        int cant_asignadas =0;
         for ( Procesador p : this.solucion){
             this.cant_asignadas+= p.getLinkedListCopia().size();
         }

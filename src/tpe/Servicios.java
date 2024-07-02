@@ -45,21 +45,9 @@ public class Servicios {
 			this.addProcesador(procesador.getId_procesador(),procesador.getCodigo_procesador(),procesador.isEsta_refrigerado(),procesador.getAnio_procesamiento());
 		}
 	}
-	
-	public void addTarea(String ID,String nombre, Integer tiempo,boolean critica,Integer prioridad) {
-		if(!contieneTarea(ID)) {
-			Tarea t = new Tarea(ID,nombre, tiempo, critica, prioridad);
-			mapaTareas.put(ID, t);
-			addTareaCritica(t);
-		}
-	}
-	
-	private boolean contieneTarea(String id) {
-		return this.mapaTareas.containsKey(id);
-	}
-	
+
 	/*
-	 * O(1) donde 1 es cada Tarea
+	* O(1) donde 1 es cada Tarea
 	 */
 
 	public Tarea servicio1(String ID) {
@@ -67,8 +55,8 @@ public class Servicios {
 	}
     
     /*
-     * O(1) simplemente se retorna la lista de criticas y no criticas, la complejidad es constante
-     */
+	* O(1) simplemente se retorna la lista de criticas y no criticas, la complejidad es constante
+	*/
 	
 	public LinkedList<Tarea> servicio2(boolean esCritica) {
 		if(esCritica){
@@ -76,19 +64,11 @@ public class Servicios {
 		}
 		return ListaNoCritica;
 	}
-
-	private void addTareaCritica(Tarea t) {
-		if(t.isCritica()) {
-			ListaCritica.add(t); 
-		   }
-		   else{
-			   ListaNoCritica.add(t);
-		   }
-	}	
 	
     /*
-     *El siguiente metodo es O(n), aunque entendemos que lo podriamos realizar con arbol binario de busqueda y en el peor de los casos su complejidad seria O(n).
-     */
+	*El siguiente metodo es O(n), aunque entendemos que lo podriamos realizar con arbol binario de busqueda y en el peor de los casos su complejidad seria O(n).
+	*/
+
 	public LinkedList<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
 		LinkedList<Tarea> Resultado= new LinkedList<>();
 		for(Tarea t: mapaTareas.values()) {
@@ -98,29 +78,38 @@ public class Servicios {
 		}
 		return Resultado;
 	}
-
+	
 	public void addProcesador(String id_procesador, String codigo_procesador, boolean esta_refrigerado, int anio_procesamiento){
 		Procesador procesador = new Procesador(id_procesador, codigo_procesador, esta_refrigerado, anio_procesamiento);
 		this.mapProcesadores.put(id_procesador, procesador);
 	}
+	
+	public void addTarea(String ID,String nombre, Integer tiempo,boolean critica,Integer prioridad) {
+		if(!contieneTarea(ID)) {
+			Tarea t = new Tarea(ID,nombre, tiempo, critica, prioridad);
+			mapaTareas.put(ID, t);
+			addTareaCritica(t);
+		}
+	}
 
+	private void addTareaCritica(Tarea t) {
+		if(t.isCritica()) {
+			ListaCritica.add(t); 
+		   }
+		   else{
+			   ListaNoCritica.add(t);
+			}
+	}	
+	
+	private boolean contieneTarea(String id) {
+		return this.mapaTareas.containsKey(id);
+	}
+	
 	public Iterator<Procesador> obtProcesadores(){
 		return this.mapProcesadores.values().iterator();
 	}
+	
 	public LinkedList<Tarea> getListServicio(){
 		return new LinkedList<>(this.listaTareas);
 	}
-
-	// public void imprimirTodasLasTareas() {
-	// 	for (Tarea t : mapaTareas.values()) {
-	// 		System.out.println(t);
-	// 	}
-	// }
-
-	// public void imprimirTodosLosProcesadores() {
-	// 	for (Procesador p : mapProcesadores.values()) {
-	// 		System.out.println(p);
-	// 	}
-	// }
-
 }

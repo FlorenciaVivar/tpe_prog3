@@ -102,5 +102,4 @@ public class Procesador {
     public int cantidadDeTareasCriticas(){
         return this.tareasCriticas;
     }
-
 }

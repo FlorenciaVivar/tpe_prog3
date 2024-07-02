@@ -58,7 +58,6 @@ public class Back {
         }
     }
 
-
     public void incrementarEstado() {
         this.cont_estado++;
     }
