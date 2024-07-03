@@ -20,7 +20,7 @@ public class Servicios {
 	private LinkedList<Tarea> listaTareas;
 	private LinkedList<Procesador> listaProcesadores;
 
-	/* Complejidad del constructor: O(n + m) donde n es la cantidad de tareas y m es la cantidad de procesadores  */
+	/* Complejidad del constructor: O(n + m) donde n es la cantidad de tareas y m es la cantidad de procesadores*/
 	public Servicios(String pathProcesadores, String pathTareas){
 		CSVReader reader = new CSVReader();
 		reader.readProcessors(pathProcesadores);
